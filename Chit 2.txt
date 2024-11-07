@@ -1,0 +1,112 @@
+Here is the complete SQL DML code to address the 10 queries mentioned:
+
+### Table Structure (Assumed)
+Assuming we have an `EMP` table with the following columns:
+- `ID` (Employee ID)
+- `Name` (Employee Name)
+- `Joining_date` (Date of Joining)
+- `Salary` (Employee Salary)
+- `Dept` (Department ID)
+
+```sql
+CREATE TABLE EMP (
+    ID NUMBER PRIMARY KEY,
+    Name VARCHAR2(50),
+    Joining_date DATE,
+    Salary DECIMAL(10, 2),
+    Dept NUMBER(4)
+);
+```
+
+### 1. Insert a Single Record into the Table:
+```sql
+-- Insert a single record into the EMP table
+INSERT INTO EMP (ID, Name, Joining_date, Salary, Dept)
+VALUES (101, 'Alice', TO_DATE('2023/01/15', 'YYYY/MM/DD'), 8500, 10);
+```
+
+### 2. Insert Multiple Rows into the Table:
+```sql
+-- Insert multiple rows into the EMP table
+INSERT ALL
+    INTO EMP (ID, Name, Joining_date, Salary, Dept) VALUES (102, 'Bob', TO_DATE('2023/03/20', 'YYYY/MM/DD'), 9500, 20)
+    INTO EMP (ID, Name, Joining_date, Salary, Dept) VALUES (103, 'Charlie', TO_DATE('2023/06/10', 'YYYY/MM/DD'), 7800, 10)
+    INTO EMP (ID, Name, Joining_date, Salary, Dept) VALUES (104, 'David', TO_DATE('2022/11/25', 'YYYY/MM/DD'), 8700, 30)
+    INTO EMP (ID, Name, Joining_date, Salary, Dept) VALUES (105, 'Eva', TO_DATE('2023/07/10', 'YYYY/MM/DD'), 6500, 20)
+SELECT * FROM dual;
+```
+
+### 3. Display All the Records from the Table:
+```sql
+-- Display all records from the EMP table
+SELECT * FROM EMP;
+```
+
+### 4. Display All the Records Where Salary is Greater Than 8000:
+```sql
+-- Display records where Salary is greater than 8000
+SELECT * FROM EMP
+WHERE Salary > 8000;
+```
+
+### 5. Display Records in Ascending Order of Joining Date:
+```sql
+-- Display records sorted by Joining_date in ascending order
+SELECT * FROM EMP
+ORDER BY Joining_date ASC;
+```
+
+### 6. Update the Salary of Employee with ID = 100:
+```sql
+-- Update salary of employee with ID 100
+UPDATE EMP
+SET Salary = 50000
+WHERE ID = 100;
+```
+
+### 7. Remove the Record of Employee with ID = 106:
+```sql
+-- Remove the record of employee with ID 106
+DELETE FROM EMP
+WHERE ID = 106;
+```
+
+### 8. Use DISTINCT Keyword to Display Salary of an Employee:
+```sql
+-- Display distinct salary values
+SELECT DISTINCT Salary FROM EMP;
+```
+
+### 9. Display the Minimum and Maximum Salary of an Employee:
+```sql
+-- Display the minimum and maximum salary of employees
+SELECT MIN(Salary) AS Min_Salary, MAX(Salary) AS Max_Salary
+FROM EMP;
+```
+
+### 10. Display the Total Number of Employees:
+```sql
+-- Display the total number of employees
+SELECT COUNT(*) AS Total_Employees
+FROM EMP;
+```
+
+### 11. Display the Sum of Salaries for Employees in Department 10:
+```sql
+-- Display the sum of salaries for employees in department 10
+SELECT SUM(Salary) AS Total_Salary
+FROM EMP
+WHERE Dept = 10;
+```
+
+### Summary:
+This set of queries covers various SQL DML operations:
+1. Inserting records (`INSERT`).
+2. Selecting records (`SELECT`).
+3. Updating records (`UPDATE`).
+4. Deleting records (`DELETE`).
+5. Using aggregate functions like `SUM`, `MIN`, `MAX`, `COUNT`.
+6. Using `DISTINCT` to filter unique results.
+7. Sorting results using `ORDER BY`.
+
+Each query handles different aspects of working with the `EMP` table to manage employee data.

@@ -1,0 +1,40 @@
+// Step 1: Switch to the 'comp' database
+use comp
+
+switched to db comp
+
+
+// Step 2: Create the 'employee' collection
+db.createCollection("employee")
+
+// Step 3: Insert multiple records into the 'employee' collection
+db.employee.insertMany([
+    {id: 101, name: "Siddhi", city: "Pune", age: 20, salary: 25000},
+    {id: 102, name: "Bhagyashri", city: "Mumbai", age: 20, salary: 30000},
+    {id: 103, name: "Shraddha", city: "Karnataka", age: 21, salary: 40000},
+    {id: 104, name: "Shravan", city: "Mumbai", age: 30, salary: 25000},
+    {id: 105, name: "Akshay", city: "Delhi", age: 30, salary: 28000},
+    {id: 106, name: "Kiran", city: "Pune", age: 28, salary: 35000}
+])
+
+// Step 4: Find all documents in the 'employee' collection
+db.employee.find()
+
+// Step 5: Find employees with a salary greater than 25,000, showing only name and city
+db.employee.aggregate([
+    {$match: {salary: {$gt: 25000}}},
+    {$project: {_id: 0, name: 1, city: 1}}
+])
+
+// Step 6: Group employees by city and sort them in descending order of city name
+db.employee.aggregate([
+    {$group: {_id: "$city"}},
+    {$sort: {_id: -1}}
+])
+
+// Step 7: Sort employees by salary (ascending), show name and salary, and limit to the top 3 employees
+db.employee.aggregate([
+    {$sort: {salary: 1}},
+    {$project: {_id: 0, name: 1, salary: 1}},
+    {$limit: 3}
+])

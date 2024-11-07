@@ -1,0 +1,155 @@
+Chit No. 21 : Consider the following Relational Database.
+Student (roll_no, name,city,marks,c_no) 
+Course (c_no,cname,fees) Construct Queries into Relational algebra. 
+1.	Write a query in SQL to insert single record into table.
+2.	Write a query in SQL to multiple rows into table.
+3.	Display all the records from table.
+4.	List Student Details enrolled for ‘BBA (C.A)’ Course. 
+5.	List the Course having fees < 20000 
+6.	Display all students living in either ‘Nasik’ or ‘Pune’ city. 
+7.	Display Course detail for student ‘Gaurav Sharma’
+
+
+
+Below is the complete SQL script for creating the schema, inserting records, and performing the queries with explanations for the expected output.
+
+### Step 1: Create the Schema
+
+```sql
+-- Create Course Table
+CREATE TABLE Course (
+    c_no NUMBER PRIMARY KEY,
+    cname VARCHAR2(100) NOT NULL,
+    fees NUMBER(10, 2) NOT NULL
+);
+
+-- Create Student Table
+CREATE TABLE Student (
+    roll_no NUMBER PRIMARY KEY,
+    name VARCHAR2(100) NOT NULL,
+    city VARCHAR2(50),
+    marks NUMBER(5, 2),
+    c_no NUMBER,
+    CONSTRAINT fk_course FOREIGN KEY (c_no) REFERENCES Course(c_no)
+);
+```
+
+### Step 2: Insert Data
+
+#### 1. Insert a single record into the `Course` table.
+
+```sql
+INSERT INTO Course (c_no, cname, fees) 
+VALUES (101, 'BBA (C.A)', 25000);
+```
+
+#### 2. Insert multiple records into the `Course` table.
+
+```sql
+INSERT INTO Course (c_no, cname, fees) VALUES 
+(102, 'MBA', 30000),
+(103, 'B.Sc', 18000),
+(104, 'MCA', 28000),
+(105, 'BBA', 15000);
+```
+
+#### 3. Insert multiple records into the `Student` table.
+
+```sql
+INSERT INTO Student (roll_no, name, city, marks, c_no) VALUES 
+(1, 'Gaurav Sharma', 'Pune', 85.5, 101),
+(2, 'Amit Patel', 'Nasik', 78.2, 103),
+(3, 'Priya Singh', 'Mumbai', 92.0, 102),
+(4, 'Rohit Kumar', 'Pune', 88.0, 105),
+(5, 'Neha Joshi', 'Nasik', 81.3, 104);
+```
+
+### Step 3: Queries and Expected Outputs
+
+#### 1. Display all records from the `Student` table.
+
+```sql
+SELECT * FROM Student;
+```
+
+**Output**:
+| roll_no | name          | city  | marks | c_no |
+|---------|---------------|-------|-------|------|
+| 1       | Gaurav Sharma | Pune  | 85.5  | 101  |
+| 2       | Amit Patel    | Nasik | 78.2  | 103  |
+| 3       | Priya Singh   | Mumbai| 92.0  | 102  |
+| 4       | Rohit Kumar   | Pune  | 88.0  | 105  |
+| 5       | Neha Joshi    | Nasik | 81.3  | 104  |
+
+---
+
+#### 2. List student details enrolled for the `BBA (C.A)` course.
+
+```sql
+SELECT s.*
+FROM Student s
+JOIN Course c ON s.c_no = c.c_no
+WHERE c.cname = 'BBA (C.A)';
+```
+
+**Output**:
+| roll_no | name          | city  | marks | c_no |
+|---------|---------------|-------|-------|------|
+| 1       | Gaurav Sharma | Pune  | 85.5  | 101  |
+
+---
+
+#### 3. List the courses having fees less than 20,000.
+
+```sql
+SELECT * 
+FROM Course
+WHERE fees < 20000;
+```
+
+**Output**:
+| c_no | cname  | fees  |
+|------|--------|-------|
+| 103  | B.Sc   | 18000 |
+| 105  | BBA    | 15000 |
+
+---
+
+#### 4. Display all students living in either ‘Nasik’ or ‘Pune’ city.
+
+```sql
+SELECT * 
+FROM Student
+WHERE city IN ('Nasik', 'Pune');
+```
+
+**Output**:
+| roll_no | name        | city  | marks | c_no |
+|---------|-------------|-------|-------|------|
+| 1       | Gaurav Sharma | Pune  | 85.5  | 101  |
+| 2       | Amit Patel    | Nasik | 78.2  | 103  |
+| 4       | Rohit Kumar   | Pune  | 88.0  | 105  |
+| 5       | Neha Joshi    | Nasik | 81.3  | 104  |
+
+---
+
+#### 5. Display course details for the student ‘Gaurav Sharma’.
+
+```sql
+SELECT c.*
+FROM Course c
+JOIN Student s ON c.c_no = s.c_no
+WHERE s.name = 'Gaurav Sharma';
+```
+
+**Output**:
+| c_no | cname    | fees  |
+|------|----------|-------|
+| 101  | BBA (C.A)| 25000 |
+
+---
+
+### Summary:
+- **Schema Creation** ensures referential integrity through foreign keys.
+- **Data Insertion** populates `Course` and `Student` tables with records.
+- **Queries** demonstrate SQL operations like `SELECT`, `JOIN`, and `WHERE` clauses to retrieve specific records, producing the expected outputs for each requirement.

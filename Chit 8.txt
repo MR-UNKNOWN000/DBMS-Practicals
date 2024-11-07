@@ -1,0 +1,113 @@
+Here is the complete code for Chit No. 8, which includes all the necessary steps, from creating the tables to adding the triggers that track updates and deletes, and then inserting data to test them.
+
+### Step 1: Create `Library` Table
+```sql
+CREATE TABLE Library (
+    book_id NUMBER(10) PRIMARY KEY,
+    title VARCHAR2(100),
+    author VARCHAR2(100),
+    published_year NUMBER(4)
+);
+```
+
+### Step 2: Create `Library_Audit` Table
+```sql
+CREATE TABLE Library_Audit (
+    audit_id NUMBER(10),
+    book_id NUMBER(10),
+    title VARCHAR2(100),
+    author VARCHAR2(100),
+    published_year NUMBER(4),
+    action VARCHAR2(10),
+    action_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### Step 3: Create Sequence for `audit_id`
+```sql
+CREATE SEQUENCE audit_id_seq
+START WITH 1
+INCREMENT BY 1
+NOCACHE;
+```
+
+### Step 4: Create Trigger to Auto-generate `audit_id` for `Library_Audit`
+```sql
+CREATE OR REPLACE TRIGGER trg_audit_id
+BEFORE INSERT ON Library_Audit
+FOR EACH ROW
+BEGIN
+    IF :NEW.audit_id IS NULL THEN
+        SELECT audit_id_seq.NEXTVAL INTO :NEW.audit_id FROM dual;
+    END IF;
+END;
+/
+```
+
+### Step 5: Create `Library_Audit` Trigger for `UPDATE` and `DELETE`
+This trigger will insert a record into the `Library_Audit` table every time a record in the `Library` table is updated or deleted. It will capture the old values from the `Library` table before the changes are made.
+
+```sql
+CREATE OR REPLACE TRIGGER trg_library_audit
+BEFORE UPDATE OR DELETE ON Library
+FOR EACH ROW
+BEGIN
+    -- Track DELETE action
+    IF DELETING THEN
+        INSERT INTO Library_Audit (audit_id, book_id, title, author, published_year, action, action_date)
+        VALUES (audit_id_seq.NEXTVAL, :OLD.book_id, :OLD.title, :OLD.author, :OLD.published_year, 'DELETE', CURRENT_TIMESTAMP);
+    
+    -- Track UPDATE action
+    ELSIF UPDATING THEN
+        INSERT INTO Library_Audit (audit_id, book_id, title, author, published_year, action, action_date)
+        VALUES (audit_id_seq.NEXTVAL, :OLD.book_id, :OLD.title, :OLD.author, :OLD.published_year, 'UPDATE', CURRENT_TIMESTAMP);
+    END IF;
+END;
+/
+```
+
+### Step 6: Insert Sample Data into the `Library` Table
+```sql
+-- Insert some sample records into the Library table
+INSERT INTO Library (book_id, title, author, published_year)
+VALUES (1, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925);
+
+INSERT INTO Library (book_id, title, author, published_year)
+VALUES (2, 'To Kill a Mockingbird', 'Harper Lee', 1960);
+```
+
+### Step 7: Verify the Insertions
+```sql
+SELECT * FROM Library;
+```
+
+### Step 8: Perform `UPDATE` and `DELETE` Operations
+```sql
+-- Perform an UPDATE operation on a record
+UPDATE Library 
+SET title = 'The Great Gatsby - Updated'
+WHERE book_id = 1;
+
+-- Perform a DELETE operation on a record
+DELETE FROM Library WHERE book_id = 2;
+```
+
+### Step 9: Verify the `Library_Audit` Table
+```sql
+SELECT * FROM Library_Audit;
+```
+
+This should show two entries in the `Library_Audit` table:
+1. An update action for `book_id = 1`.
+2. A delete action for `book_id = 2`.
+
+### Step 10: Check the Trigger Status
+You can verify that the triggers are enabled using the following query:
+```sql
+SELECT trigger_name, status
+FROM user_triggers
+WHERE table_name = 'LIBRARY';
+```
+
+### Conclusion
+This code will create the required `Library` and `Library_Audit` tables, the sequence for `audit_id`, and the triggers to capture the changes (both updates and deletes) made to the `Library` table. The `Library_Audit` table will store the old values of the records that are deleted or updated, along with the action (`UPDATE` or `DELETE`) and the timestamp of when the action occurred.

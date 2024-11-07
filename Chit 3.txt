@@ -1,0 +1,91 @@
+-- Step 1: Create tables
+
+CREATE TABLE actors (
+    actor_id INT PRIMARY KEY,
+    first_name VARCHAR2(50),
+    last_name VARCHAR2(50)
+);
+
+CREATE TABLE movies (
+    movie_id INT PRIMARY KEY,
+    title VARCHAR2(100),
+    director VARCHAR2(50),
+    rating NUMBER(3,1)
+);
+
+CREATE TABLE cast (
+    actor_id INT,
+    movie_id INT,
+    PRIMARY KEY (actor_id, movie_id),
+    FOREIGN KEY (actor_id) REFERENCES actors(actor_id),
+    FOREIGN KEY (movie_id) REFERENCES movies(movie_id)
+);
+
+-- Step 2: Insert sample data into the tables
+
+INSERT INTO actors (actor_id, first_name, last_name)
+VALUES (1, 'Leonardo', 'DiCaprio');
+INSERT INTO actors (actor_id, first_name, last_name)
+VALUES (2, 'Brad', 'Pitt');
+INSERT INTO actors (actor_id, first_name, last_name)
+VALUES (3, 'Tom', 'Hanks');
+INSERT INTO actors (actor_id, first_name, last_name)
+VALUES (4, 'Meryl', 'Streep');
+
+INSERT INTO movies (movie_id, title, director, rating)
+VALUES (1, 'Inception', 'Christopher Nolan', 8.8);
+INSERT INTO movies (movie_id, title, director, rating)
+VALUES (2, 'Titanic', 'James Cameron', 7.8);
+INSERT INTO movies (movie_id, title, director, rating)
+VALUES (3, 'Fight Club', 'David Fincher', 8.8);
+INSERT INTO movies (movie_id, title, director, rating)
+VALUES (4, 'The Post', 'Steven Spielberg', 7.2);
+
+INSERT INTO cast (actor_id, movie_id)
+VALUES (1, 1);
+INSERT INTO cast (actor_id, movie_id)
+VALUES (2, 3);
+INSERT INTO cast (actor_id, movie_id)
+VALUES (3, 4);
+INSERT INTO cast (actor_id, movie_id)
+VALUES (2, 2);
+INSERT INTO cast (actor_id, movie_id)
+VALUES (1, 2);
+
+-- Step 3: Queries to solve the problems
+
+-- Problem 1: Find the names of all actors and the titles of the movies in which they appeared.
+SELECT a.first_name, a.last_name, m.title
+FROM actors a
+INNER JOIN cast c ON a.actor_id = c.actor_id
+INNER JOIN movies m ON c.movie_id = m.movie_id;
+
+-- Problem 2: List all movies and the names of actors who appeared in each movie. Include movies that don’t have any actors associated with them
+SELECT m.title, a.first_name, a.last_name
+FROM movies m
+LEFT JOIN cast c ON m.movie_id = c.movie_id
+LEFT JOIN actors a ON c.actor_id = a.actor_id;
+
+-- Problem 3: List all actors and the titles of the movies they appeared in, including actors who have not appeared in any movie.
+SELECT a.first_name, a.last_name, m.title
+FROM actors a
+LEFT JOIN cast c ON a.actor_id = c.actor_id
+LEFT JOIN movies m ON c.movie_id = m.movie_id;
+
+-- Problem 4: List all movies and actors, including movies without actors and actors who have not been cast in any movie.
+SELECT m.title, a.first_name, a.last_name
+FROM movies m
+LEFT JOIN cast c ON m.movie_id = c.movie_id
+LEFT JOIN actors a ON c.actor_id = a.actor_id;
+
+-- Problem 5: Find the names of all actors who appeared in a movie directed by "Christopher Nolan".
+SELECT DISTINCT a.first_name, a.last_name
+FROM actors a
+INNER JOIN cast c ON a.actor_id = c.actor_id
+INNER JOIN movies m ON c.movie_id = m.movie_id
+WHERE m.director = 'Christopher Nolan';
+
+-- Problem 6: List the titles of movies that have a rating higher than the average rating of all movies.
+SELECT title
+FROM movies
+WHERE rating > (SELECT AVG(rating) FROM movies);

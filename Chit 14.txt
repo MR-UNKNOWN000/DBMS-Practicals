@@ -1,0 +1,188 @@
+To generate the output for Chit No. 14, you need to run the queries you've written on your SQL database, and ensure the following steps are performed to verify the output:
+
+### 1. **Creating the Tables:**
+
+First, ensure that the `Employee`, `Books`, and `Loan` tables are created correctly.
+
+Run the following SQL script to create the tables:
+
+```sql
+-- Create Employee Table
+CREATE TABLE Employee (
+    empno INT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    office VARCHAR(100),
+    age INT CHECK (age >= 18)
+);
+
+-- Create Books Table
+CREATE TABLE Books (
+    isbn VARCHAR(20) PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    authors VARCHAR(200),
+    publisher VARCHAR(100)
+);
+
+-- Create Loan Table
+CREATE TABLE Loan (
+    empno INT,
+    isbn VARCHAR(20),
+    loan_date DATE,
+    PRIMARY KEY (empno, isbn, loan_date),
+    FOREIGN KEY (empno) REFERENCES Employee(empno),
+    FOREIGN KEY (isbn) REFERENCES Books(isbn)
+);
+```
+
+### 2. **Insert Data into Tables:**
+
+You should insert some sample data into these tables to verify the output. For example:
+
+```sql
+-- Insert recordS into Employee table
+INSERT INTO Employee (empno, name, office, age) 
+VALUES (1, 'Alice', 'NYC Office', 30);
+
+INSERT INTO Employee (empno, name, office, age) 
+VALUES (2, 'Bob', 'LA Office', 45);
+
+INSERT INTO Employee (empno, name, office, age) 
+VALUES (3, 'Charlie', 'SF Office', 35);
+
+-- Insert records into Books table
+INSERT INTO Books (isbn, title, authors, publisher)
+VALUES ('978-3-16-148410-0', 'SQL Fundamentals', 'John Doe', 'TechPress');
+
+INSERT INTO Books (isbn, title, authors, publisher)
+VALUES ('978-0-14-017739-8', 'Relational Databases', 'Jane Smith', 'DataPub');
+
+
+-- Insert records into Loan table
+INSERT INTO Loan (empno, isbn, loan_date)
+VALUES (1, '978-3-16-148410-0', TO_DATE('2024-10-01', 'YYYY-MM-DD'));
+
+INSERT INTO Loan (empno, isbn, loan_date)
+VALUES (2, '978-0-14-017739-8', TO_DATE('2024-10-05', 'YYYY-MM-DD'));
+```
+
+### 3. **Create Views and Indexes:**
+
+Run the following SQL commands to create views and indexes:
+
+```sql
+-- Create Employee View (All Records)
+CREATE VIEW EmployeeView AS
+SELECT * FROM Employee;
+
+-- Create Employee View for Employees Older Than 30
+CREATE VIEW EmployeeOlderThan30 AS
+SELECT * FROM Employee
+WHERE age > 30;
+
+-- Create Index for Book Table on Title
+CREATE INDEX idx_books_title ON Books(title);
+
+-- Create Index for Book Table on ISBN and Publisher
+CREATE INDEX idx_books_isbn_publisher ON Books(isbn, publisher);
+
+-- Create Synonym for Employee Table
+CREATE SYNONYM EMP_INFO FOR Employee;
+```
+
+### 4. **Verify the Views and Indexes:**
+
+To verify that the views and indexes were created correctly, run the following queries:
+
+#### Verify the EmployeeView:
+```sql
+SELECT * FROM EmployeeView;
+```
+
+This should return all records from the `Employee` table.
+
+#### Verify the EmployeeOlderThan30 View:
+```sql
+SELECT * FROM EmployeeOlderThan30;
+```
+
+This should return only those employees whose age is greater than 30.
+
+#### Verify the Indexes:
+To check the created indexes, you can query the `USER_INDEXES` and `USER_IND_COLUMNS` views:
+
+```sql
+-- Check for indexes created on the Books table
+SELECT index_name, table_name 
+FROM user_indexes 
+WHERE table_name = 'BOOKS';
+
+-- Check columns in the index
+SELECT index_name, column_name
+FROM user_ind_columns 
+WHERE table_name = 'BOOKS';
+```
+
+#### Verify the Synonym:
+To verify the synonym, you can simply query:
+
+```sql
+SELECT * FROM EMP_INFO;
+```
+
+This should return all records from the `Employee` table, as `EMP_INFO` is a synonym for `Employee`.
+
+### 5. **Expected Output:**
+
+- **For Views:**
+  - `EmployeeView` will show all records from the `Employee` table.
+  - `EmployeeOlderThan30` will show only employees older than 30.
+
+- **For Indexes:**
+  - You will see the `idx_books_title` and `idx_books_isbn_publisher` created on the `Books` table.
+
+- **For Synonym:**
+  - Querying `EMP_INFO` will show the same records as the `Employee` table, as it’s a synonym for that table.
+
+### Example Output for `EmployeeView`:
+
+```text
+EMPNO | NAME    | OFFICE      | AGE
+--------------------------------------
+1     | Alice   | NYC Office  | 30
+2     | Bob     | LA Office   | 45
+3     | Charlie | SF Office   | 35
+```
+
+### Example Output for `EmployeeOlderThan30`:
+
+```text
+EMPNO | NAME    | OFFICE      | AGE
+--------------------------------------
+2     | Bob     | LA Office   | 45
+3     | Charlie | SF Office   | 35
+```
+
+### Example Output for `USER_INDEXES` and `USER_IND_COLUMNS` (for verifying indexes):
+
+```text
+INDEX_NAME            | TABLE_NAME
+---------------------------------------
+IDX_BOOKS_TITLE       | BOOKS
+IDX_BOOKS_ISBN_PUBLISHER | BOOKS
+```
+
+### Example Output for `EMP_INFO` (Synonym check):
+
+```text
+EMPNO | NAME    | OFFICE      | AGE
+--------------------------------------
+1     | Alice   | NYC Office  | 30
+2     | Bob     | LA Office   | 45
+3     | Charlie | SF Office   | 35
+```
+
+### 6. **Final Notes:**
+
+Once you've run all the commands and verified the outputs, you should have completed the requirements for Chit No. 14.
+
+Let me know if you need further clarifications or assistance!

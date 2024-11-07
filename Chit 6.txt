@@ -1,0 +1,40 @@
+CREATE OR REPLACE PROCEDURE proc_Grade (
+    p_name IN VARCHAR2,
+    p_total_marks IN NUMBER,
+    p_class OUT VARCHAR2
+) AS
+BEGIN
+    IF p_total_marks >= 990 AND p_total_marks <= 1500 THEN
+        p_class := 'Distinction';
+    ELSIF p_total_marks >= 900 AND p_total_marks <= 989 THEN
+        p_class := 'First Class';
+    ELSIF p_total_marks >= 825 AND p_total_marks <= 899 THEN
+        p_class := 'Higher Second Class';
+    ELSE
+        p_class := 'No Category'; -- For marks below 825 or invalid marks
+    END IF;
+END proc_Grade;
+/
+
+
+
+
+
+DECLARE
+    v_name VARCHAR2(100);
+    v_total_marks NUMBER;
+    v_class VARCHAR2(50);
+BEGIN
+    -- Example data
+    v_name := 'John Doe';
+    v_total_marks := 1020; -- You can change this value to test different cases
+
+    -- Call the procedure
+    proc_Grade(v_name, v_total_marks, v_class);
+
+    -- Display the result
+    DBMS_OUTPUT.PUT_LINE('Student Name: ' || v_name);
+    DBMS_OUTPUT.PUT_LINE('Total Marks: ' || v_total_marks);
+    DBMS_OUTPUT.PUT_LINE('Class: ' || v_class);
+END;
+/

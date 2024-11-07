@@ -1,0 +1,70 @@
+-- Assume that both tables have similar columns such as Roll_No, Name, and Attendance.
+
+-- Step 1: Create the N_RollCall and O_RollCall tables
+CREATE TABLE N_RollCall (
+    Roll_No NUMBER(5),
+    Name VARCHAR2(50),
+    Attendance CHAR(1)
+);
+
+CREATE TABLE O_RollCall (
+    Roll_No NUMBER(5),
+    Name VARCHAR2(50),
+    Attendance CHAR(1)
+);
+
+-- Step 2: Insert some test data into N_RollCall (for testing purposes)
+INSERT INTO N_RollCall VALUES (1, 'John Doe', 'P');
+INSERT INTO N_RollCall VALUES (2, 'Jane Smith', 'A');
+INSERT INTO N_RollCall VALUES (3, 'Alice Johnson', 'P');
+
+-- Step 3: Insert some test data into O_RollCall (for testing purposes)
+INSERT INTO O_RollCall VALUES (1, 'John Doe', 'P'); -- Already exists in N_RollCall
+
+COMMIT;
+
+-- Step 4: Create the PL/SQL block with a parameterized cursor
+DECLARE
+    -- Define a parameterized cursor to select data from N_RollCall
+    CURSOR n_rollcall_cur(p_roll_no NUMBER) IS
+        SELECT Roll_No, Name, Attendance
+        FROM N_RollCall
+        WHERE Roll_No = p_roll_no;
+
+    -- Variables to hold the values fetched from the cursor
+    v_roll_no NUMBER(5);
+    v_name VARCHAR2(50);
+    v_attendance CHAR(1);
+
+    -- Variable to check if record exists in O_RollCall
+    record_exists NUMBER;
+
+BEGIN
+    -- Loop through each row in N_RollCall
+    FOR rec IN (SELECT Roll_No FROM N_RollCall) LOOP
+        -- Open the parameterized cursor for the current Roll_No
+        OPEN n_rollcall_cur(rec.Roll_No);
+        
+        -- Fetch the data from N_RollCall
+        FETCH n_rollcall_cur INTO v_roll_no, v_name, v_attendance;
+        
+        -- Close the cursor after fetching the record
+        CLOSE n_rollcall_cur;
+
+        -- Check if the data exists in O_RollCall
+        SELECT COUNT(*) INTO record_exists FROM O_RollCall WHERE Roll_No = v_roll_no;
+        
+        -- If data doesn't exist, insert it into O_RollCall
+        IF record_exists = 0 THEN
+            INSERT INTO O_RollCall (Roll_No, Name, Attendance)
+            VALUES (v_roll_no, v_name, v_attendance);
+        END IF;
+    END LOOP;
+
+    -- Commit the transaction to save changes
+    COMMIT;
+END;
+/
+
+-- Step 5: Verify the merged data
+SELECT * FROM O_RollCall;

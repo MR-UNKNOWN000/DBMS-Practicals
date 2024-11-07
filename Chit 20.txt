@@ -1,0 +1,186 @@
+### Chit No. 20: MongoDB – Aggregation and Indexing
+
+In this Chit, we are going to cover two major concepts of MongoDB:
+
+1. **Aggregation**: This is used to process data records and return computed results. It is similar to SQL GROUP BY operations.
+2. **Indexing**: This helps to improve the performance of read operations, especially for large collections.
+
+We will use an example involving a **collection** of `Employees` and demonstrate both **aggregation** and **indexing** operations.
+
+---
+
+### **Step-by-Step Guide for MongoDB Aggregation and Indexing**
+
+#### **1. Setting up MongoDB**
+
+Make sure MongoDB is installed and running on your machine. You can use either the **MongoDB shell** or **MongoDB Compass** for executing these operations.
+
+- **MongoDB shell** command: 
+```bash
+mongosh
+```
+
+#### **2. Create a Database and Collection**
+
+First, let's create a MongoDB database called `CompanyDB` and a collection called `Employees` with some sample data.
+
+```bash
+use CompanyDB
+```
+
+**Insert Sample Data:**
+
+```javascript
+db.Employees.insertMany([
+    { EmployeeID: 1, Name: 'John Doe', Age: 30, Department: 'HR', Salary: 50000 },
+    { EmployeeID: 2, Name: 'Jane Smith', Age: 25, Department: 'Finance', Salary: 60000 },
+    { EmployeeID: 3, Name: 'Mike Johnson', Age: 35, Department: 'IT', Salary: 70000 },
+    { EmployeeID: 4, Name: 'Sarah Brown', Age: 28, Department: 'Finance', Salary: 55000 },
+    { EmployeeID: 5, Name: 'David White', Age: 40, Department: 'HR', Salary: 80000 },
+    { EmployeeID: 6, Name: 'Emma Green', Age: 32, Department: 'IT', Salary: 75000 },
+    { EmployeeID: 7, Name: 'James Black', Age: 22, Department: 'Finance', Salary: 48000 }
+]);
+```
+
+This will create a collection with employees in different departments, each having `EmployeeID`, `Name`, `Age`, `Department`, and `Salary`.
+
+---
+
+### **3. MongoDB Aggregation Example**
+
+Now, let’s demonstrate some basic aggregation operations.
+
+#### **Example 1: Grouping Employees by Department**
+
+We will calculate the **average salary** of employees in each department.
+
+```javascript
+db.Employees.aggregate([
+    { $group: {
+        _id: "$Department",       // Group by Department
+        averageSalary: { $avg: "$Salary" },  // Calculate average salary
+        totalEmployees: { $sum: 1 }  // Count the number of employees in each department
+    }}
+]);
+```
+
+**Explanation:**
+- `$group`: Groups documents by a specified field, in this case, `Department`.
+- `$avg`: Calculates the average salary for each department.
+- `$sum`: Counts the number of employees per department.
+
+**Output:**
+
+```javascript
+{ "_id" : "HR", "averageSalary" : 65000, "totalEmployees" : 2 }
+{ "_id" : "Finance", "averageSalary" : 57750, "totalEmployees" : 3 }
+{ "_id" : "IT", "averageSalary" : 72500, "totalEmployees" : 2 }
+```
+
+#### **Example 2: Sorting Employees by Salary**
+
+Now, let’s sort employees by their **salary in descending order**.
+
+```javascript
+db.Employees.aggregate([
+    { $sort: { Salary: -1 } }
+]);
+```
+
+**Explanation:**
+- `$sort`: Sorts documents. The value `-1` sorts in descending order.
+
+**Output:**
+
+```javascript
+{ "_id" : 5, "EmployeeID" : 5, "Name" : "David White", "Age" : 40, "Department" : "HR", "Salary" : 80000 }
+{ "_id" : 6, "EmployeeID" : 6, "Name" : "Emma Green", "Age" : 32, "Department" : "IT", "Salary" : 75000 }
+{ "_id" : 3, "EmployeeID" : 3, "Name" : "Mike Johnson", "Age" : 35, "Department" : "IT", "Salary" : 70000 }
+...
+```
+
+#### **Example 3: Filtering Employees with Salary > 60000**
+
+We will now find all employees whose **salary is greater than 60000**.
+
+```javascript
+db.Employees.aggregate([
+    { $match: { Salary: { $gt: 60000 } } }
+]);
+```
+
+**Explanation:**
+- `$match`: Filters documents based on the given condition. Here, we’re filtering employees with a salary greater than 60000.
+
+**Output:**
+
+```javascript
+{ "_id" : 5, "EmployeeID" : 5, "Name" : "David White", "Age" : 40, "Department" : "HR", "Salary" : 80000 }
+{ "_id" : 6, "EmployeeID" : 6, "Name" : "Emma Green", "Age" : 32, "Department" : "IT", "Salary" : 75000 }
+{ "_id" : 3, "EmployeeID" : 3, "Name" : "Mike Johnson", "Age" : 35, "Department" : "IT", "Salary" : 70000 }
+...
+```
+
+---
+
+### **4. MongoDB Indexing Example**
+
+Now, let's implement **indexing** to speed up queries on the `Salary` and `Department` fields.
+
+#### **Creating an Index on `Salary`**
+
+```javascript
+db.Employees.createIndex({ Salary: 1 });
+```
+
+**Explanation:**
+- This creates an ascending index on the `Salary` field to optimize queries that involve sorting or filtering by salary.
+
+#### **Creating a Compound Index on `Department` and `Salary`**
+
+```javascript
+db.Employees.createIndex({ Department: 1, Salary: -1 });
+```
+
+**Explanation:**
+- This creates a compound index that first sorts by `Department` and then by `Salary` in descending order. This is useful for complex queries where we need to filter by `Department` and sort by `Salary`.
+
+#### **Verify the Indexes Created**
+
+```javascript
+db.Employees.getIndexes();
+```
+
+**Output:**
+```javascript
+[
+    { v: 2, key: { _id: 1 }, name: "_id_" },
+    { v: 2, key: { Salary: 1 }, name: "Salary_1" },
+    { v: 2, key: { Department: 1, Salary: -1 }, name: "Department_1_Salary_-1" }
+]
+```
+
+---
+
+### **5. Conclusion and Performance Impact**
+
+- **Aggregation** is a powerful feature in MongoDB for grouping, sorting, filtering, and performing calculations on documents.
+- **Indexing** improves the performance of queries, especially for large collections. By creating indexes on frequently used fields, we can optimize read operations significantly.
+
+For large datasets, **aggregation pipelines** help to efficiently retrieve and compute data on the server side, reducing the amount of data transferred over the network. **Indexes** ensure that these operations are as fast as possible by minimizing the amount of data scanned for each query.
+
+---
+
+### **Summary of the Operations Done:**
+
+1. **Aggregation Examples**:
+   - Grouped employees by department and calculated average salary and total number of employees per department.
+   - Sorted employees by salary in descending order.
+   - Filtered employees with a salary greater than 60000.
+
+2. **Indexing Examples**:
+   - Created an index on the `Salary` field.
+   - Created a compound index on the `Department` and `Salary` fields.
+   - Verified the indexes created on the collection.
+
+This covers the basic concepts of **aggregation** and **indexing** in MongoDB, which are essential for optimizing queries and performing complex data transformations.

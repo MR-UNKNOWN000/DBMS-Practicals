@@ -1,0 +1,226 @@
+Here is the complete SQL code for **Chit No. 16** based on your movie database schema, which includes tables for `Movies`, `Directors`, `Actors`, `Genres`, `Cast`, and `Ratings`. This includes table creation, data insertion, and the queries using various types of JOINS, subqueries, and a view.
+
+### Step 1: Create the Tables
+
+#### 1. **Create `Genres` Table**
+
+```sql
+CREATE TABLE Genres (
+    GenreID INT PRIMARY KEY,
+    GenreName VARCHAR2(50)
+);
+```
+
+#### 2. **Create `Directors` Table**
+
+```sql
+CREATE TABLE Directors (
+    DirectorID INT PRIMARY KEY,
+    DirectorName VARCHAR2(100)
+);
+```
+
+#### 3. **Create `Actors` Table**
+
+```sql
+CREATE TABLE Actors (
+    ActorID INT PRIMARY KEY,
+    ActorName VARCHAR2(100)
+);
+```
+
+#### 4. **Create `Movies` Table**
+
+```sql
+CREATE TABLE Movies (
+    MovieID INT PRIMARY KEY,
+    Title VARCHAR2(100),
+    ReleaseYear INT,
+    GenreID INT,
+    DirectorID INT,
+    FOREIGN KEY (GenreID) REFERENCES Genres(GenreID),
+    FOREIGN KEY (DirectorID) REFERENCES Directors(DirectorID)
+);
+```
+
+#### 5. **Create `Cast` Table** (to map actors to movies)
+
+```sql
+CREATE TABLE Cast (
+    MovieID INT,
+    ActorID INT,
+    Role VARCHAR2(100),
+    PRIMARY KEY (MovieID, ActorID),
+    FOREIGN KEY (MovieID) REFERENCES Movies(MovieID),
+    FOREIGN KEY (ActorID) REFERENCES Actors(ActorID)
+);
+```
+
+#### 6. **Create `Ratings` Table**
+
+```sql
+CREATE TABLE Ratings (
+    MovieID INT,
+    Rating DECIMAL(3, 2),
+    FOREIGN KEY (MovieID) REFERENCES Movies(MovieID)
+);
+```
+
+---
+
+### Step 2: Insert Data into Tables
+
+#### 1. **Insert Data into `Genres` Table**
+
+```sql
+INSERT INTO Genres (GenreID, GenreName) VALUES (1, 'Action');
+INSERT INTO Genres (GenreID, GenreName) VALUES (2, 'Comedy');
+INSERT INTO Genres (GenreID, GenreName) VALUES (3, 'Drama');
+INSERT INTO Genres (GenreID, GenreName) VALUES (4, 'Horror');
+```
+
+#### 2. **Insert Data into `Directors` Table**
+
+```sql
+INSERT INTO Directors (DirectorID, DirectorName) VALUES (1, 'Steven Spielberg');
+INSERT INTO Directors (DirectorID, DirectorName) VALUES (2, 'Quentin Tarantino');
+INSERT INTO Directors (DirectorID, DirectorName) VALUES (3, 'Christopher Nolan');
+```
+
+#### 3. **Insert Data into `Actors` Table**
+
+```sql
+INSERT INTO Actors (ActorID, ActorName) VALUES (1, 'Tom Hanks');
+INSERT INTO Actors (ActorID, ActorName) VALUES (2, 'Brad Pitt');
+INSERT INTO Actors (ActorID, ActorName) VALUES (3, 'Leonardo DiCaprio');
+INSERT INTO Actors (ActorID, ActorName) VALUES (4, 'Scarlett Johansson');
+```
+
+#### 4. **Insert Data into `Movies` Table**
+
+```sql
+INSERT INTO Movies (MovieID, Title, ReleaseYear, GenreID, DirectorID) VALUES (1, 'Saving Private Ryan', 1998, 1, 1);
+INSERT INTO Movies (MovieID, Title, ReleaseYear, GenreID, DirectorID) VALUES (2, 'Inglourious Basterds', 2009, 1, 2);
+INSERT INTO Movies (MovieID, Title, ReleaseYear, GenreID, DirectorID) VALUES (3, 'Inception', 2010, 3, 3);
+INSERT INTO Movies (MovieID, Title, ReleaseYear, GenreID, DirectorID) VALUES (4, 'Pulp Fiction', 1994, 2, 2);
+```
+
+#### 5. **Insert Data into `Cast` Table**
+
+```sql
+INSERT INTO Cast (MovieID, ActorID, Role) VALUES (1, 1, 'Captain Miller');
+INSERT INTO Cast (MovieID, ActorID, Role) VALUES (2, 2, 'Lt. Aldo Raine');
+INSERT INTO Cast (MovieID, ActorID, Role) VALUES (3, 3, 'Dominick Cobb');
+INSERT INTO Cast (MovieID, ActorID, Role) VALUES (4, 4, 'Mia Wallace');
+```
+
+#### 6. **Insert Data into `Ratings` Table**
+
+```sql
+INSERT INTO Ratings (MovieID, Rating) VALUES (1, 8.6);
+INSERT INTO Ratings (MovieID, Rating) VALUES (2, 8.3);
+INSERT INTO Ratings (MovieID, Rating) VALUES (3, 8.8);
+INSERT INTO Ratings (MovieID, Rating) VALUES (4, 8.9);
+```
+
+---
+
+### Step 3: SQL Queries (JOINS, Subqueries, and View)
+
+#### 1. **List all actors along with the titles of movies in which they appeared.**
+
+```sql
+SELECT a.ActorName, m.Title
+FROM Actors a
+JOIN Cast c ON a.ActorID = c.ActorID
+JOIN Movies m ON c.MovieID = m.MovieID;
+```
+
+#### 2. **List all movies and their directors, including movies that don’t have an assigned director.**
+
+```sql
+SELECT m.Title, d.DirectorName
+FROM Movies m
+LEFT JOIN Directors d ON m.DirectorID = d.DirectorID;
+```
+
+#### 3. **List all actors and the roles they played, including actors who haven’t been cast in any movie.**
+
+```sql
+SELECT a.ActorName, c.Role
+FROM Actors a
+LEFT JOIN Cast c ON a.ActorID = c.ActorID;
+```
+
+#### 4. **List all movies and the genres, including genres without any movies and movies without an assigned genre.**
+
+```sql
+SELECT m.Title, g.GenreName
+FROM Movies m
+LEFT JOIN Genres g ON m.GenreID = g.GenreID;
+```
+
+#### 5. **List all pairs of movies directed by the same director.**
+
+```sql
+SELECT m1.Title AS Movie1, m2.Title AS Movie2, d.DirectorName
+FROM Movies m1
+JOIN Movies m2 ON m1.DirectorID = m2.DirectorID
+JOIN Directors d ON m1.DirectorID = d.DirectorID
+WHERE m1.MovieID < m2.MovieID;  -- Ensuring unique pairs
+```
+
+---
+
+### Step 4: Subqueries
+
+#### 1. **Find the titles of movies that received a rating higher than the average rating of all movies.**
+
+```sql
+SELECT Title
+FROM Movies
+WHERE MovieID IN (
+    SELECT MovieID
+    FROM Ratings
+    WHERE Rating > (SELECT AVG(Rating) FROM Ratings)
+);
+```
+
+#### 2. **Find the names of all directors who have directed more than 5 movies.**
+
+```sql
+SELECT DirectorName
+FROM Directors
+WHERE DirectorID IN (
+    SELECT DirectorID
+    FROM Movies
+    GROUP BY DirectorID
+    HAVING COUNT(MovieID) > 5
+);
+```
+
+---
+
+### Step 5: Create a View
+
+#### **Create a View to List Movies with Their Directors and Genres**
+
+```sql
+CREATE VIEW MovieDetails AS
+SELECT m.Title, m.ReleaseYear, g.GenreName, d.DirectorName
+FROM Movies m
+JOIN Genres g ON m.GenreID = g.GenreID
+JOIN Directors d ON m.DirectorID = d.DirectorID;
+```
+
+You can now query this view:
+
+```sql
+SELECT * FROM MovieDetails;
+```
+
+---
+
+### Conclusion:
+
+The above code sets up a complete schema for a movie database with tables for `Movies`, `Directors`, `Actors`, `Genres`, `Cast`, and `Ratings`. It includes data insertion for the tables, several JOIN queries, subqueries, and a view to extract useful information from the database.
