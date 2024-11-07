@@ -46,22 +46,24 @@ VALUES (101, 'BBA (C.A)', 25000);
 #### 2. Insert multiple records into the `Course` table.
 
 ```sql
-INSERT INTO Course (c_no, cname, fees) VALUES 
-(102, 'MBA', 30000),
-(103, 'B.Sc', 18000),
-(104, 'MCA', 28000),
-(105, 'BBA', 15000);
+INSERT ALL
+    INTO Course (c_no, cname, fees) VALUES (102, 'MBA', 30000)
+    INTO Course (c_no, cname, fees) VALUES (103, 'B.Sc', 18000)
+    INTO Course (c_no, cname, fees) VALUES (104, 'MCA', 28000)
+    INTO Course (c_no, cname, fees) VALUES (105, 'BBA', 15000)
+SELECT * FROM dual;
 ```
 
 #### 3. Insert multiple records into the `Student` table.
 
 ```sql
-INSERT INTO Student (roll_no, name, city, marks, c_no) VALUES 
-(1, 'Gaurav Sharma', 'Pune', 85.5, 101),
-(2, 'Amit Patel', 'Nasik', 78.2, 103),
-(3, 'Priya Singh', 'Mumbai', 92.0, 102),
-(4, 'Rohit Kumar', 'Pune', 88.0, 105),
-(5, 'Neha Joshi', 'Nasik', 81.3, 104);
+INSERT ALL
+    INTO Student (roll_no, name, city, marks, c_no) VALUES (1, 'Gaurav Sharma', 'Pune', 85.5, 101)
+    INTO Student (roll_no, name, city, marks, c_no) VALUES (2, 'Amit Patel', 'Nasik', 78.2, 103)
+    INTO Student (roll_no, name, city, marks, c_no) VALUES (3, 'Priya Singh', 'Mumbai', 92.0, 102)
+    INTO Student (roll_no, name, city, marks, c_no) VALUES (4, 'Rohit Kumar', 'Pune', 88.0, 105)
+    INTO Student (roll_no, name, city, marks, c_no) VALUES (5, 'Neha Joshi', 'Nasik', 81.3, 104)
+SELECT * FROM dual;
 ```
 
 ### Step 3: Queries and Expected Outputs
