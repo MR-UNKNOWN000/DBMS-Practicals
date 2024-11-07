@@ -1,0 +1,57 @@
+Chit No. 1 : Design and Develop SQLDDL statements which demonstrate the use of SQL objects such as Table, View, Index, Sequence, Synonym, different constraints etc.
+
+CREATE TABLE EMPLOYEE    ( EMP_ID NUMBER(5) PRIMARY KEY,  EMP_NAME VARCHAR(10) NOT NULL,    JOB_NAME VARCHAR(10) NOT NULL, MANAGER_ID  NUMBER(5) DEFAULT '00000',    HIRE_DATE DATE,   SALARY DECIMAL(6,2),    COMMISSION DECIMAL(6,2) NULL,   DEPT_ID NUMBER(4));
+
+
+
+
+Here’s a step-by-step algorithm for creating, populating, and querying the `EMPLOYEE` and `DEPARTMENT` tables:
+
+### Algorithm
+1. **Define the EMPLOYEE Table**  
+   - Create a table `EMPLOYEE` with the following fields:
+     - `EMP_ID`: A unique 5-digit identifier (primary key).
+     - `EMP_NAME`: A required text field with up to 10 characters.
+     - `JOB_NAME`: A required text field with up to 10 characters for the job title.
+     - `MANAGER_ID`: A 5-digit number, defaults to `00000`.
+     - `HIRE_DATE`: A date field for the hiring date.
+     - `SALARY`: A decimal field for salary, up to 6 digits with 2 decimal places.
+     - `COMMISSION`: A decimal field for commission, up to 6 digits with 2 decimal places.
+     - `DEPT_ID`: A 4-digit number indicating the department ID.
+
+2. **Define the DEPARTMENT Table**  
+   - Create a table `DEPARTMENT` with the following fields:
+     - `DEPT_ID`: A unique 4-digit identifier (primary key).
+     - `DEPT_NAME`: A required text field with up to 20 characters for the department name.
+     - `LOCATION`: A text field with up to 20 characters for the department location.
+
+3. **Set Foreign Key Constraint**  
+   - Alter the `EMPLOYEE` table to add a foreign key constraint `FK_DEPT`:
+     - Ensure that each `DEPT_ID` in `EMPLOYEE` must match a `DEPT_ID` in `DEPARTMENT`, establishing a relationship between employees and departments.
+
+4. **Create Index for Efficient Searches**  
+   - Create an index `IDX_JOB_NAME` on the `JOB_NAME` column of `EMPLOYEE` to improve search performance when querying by job title.
+
+5. **Define Sequence for Employee IDs**  
+   - Create a sequence `EMPLOYEE_SEQ` to generate unique `EMP_ID` values automatically:
+     - Start at 1, increment by 1, with no caching and no cycling back to the beginning.
+
+6. **Create Synonym for EMPLOYEE Table**  
+   - Define a synonym `EMP_SYNONYM` to serve as an alias for `EMPLOYEE` for simpler table access.
+
+7. **Create a View for High-Salary Employees**  
+   - Define a view `HIGH_SALARY_EMPLOYEES` to show only employees with a salary above 5000:
+     - Select `EMP_ID`, `EMP_NAME`, `JOB_NAME`, and `SALARY` fields for display.
+
+8. **Insert Sample Data into DEPARTMENT Table**  
+   - Insert sample records into `DEPARTMENT`:
+     - Add a record for the HR department with ID 1001 located in New York.
+     - Add a record for the IT department with ID 1002 located in San Francisco.
+
+9. **Insert Sample Data into EMPLOYEE Table Using Sequence**  
+   - Insert sample records into `EMPLOYEE` using `EMPLOYEE_SEQ` to generate unique IDs:
+     - Add an employee named John as a Manager in department 1001 with a salary of 8000.
+     - Add an employee named Jane as a Developer in department 1002 with a salary of 6000 and a commission of 200.
+
+10. **Query High-Salary Employees View**  
+    - Execute a query on `HIGH_SALARY_EMPLOYEES` to retrieve and display employees with a salary above 5000.

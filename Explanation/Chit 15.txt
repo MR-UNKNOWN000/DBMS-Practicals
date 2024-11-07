@@ -1,0 +1,107 @@
+Chit 15 : Write at least 10 SQL queries on the suitable database application using SQL DML statements.
+Insert a new employee with the following details: EmployeeID, FirstName, LastName,age, DepartmentID, and Salary.
+1.	Update the salary of all employees in the Sales department by 10%.
+2.	Delete all orders placed before a certain date.
+3.	Retrieve the names and ages of all customers who have made a purchase in the last month.
+4.	Increase the price of all products in the "Electronics" category by 5%.
+5.	Find the total number of products in each category.
+6.	Assign a new manager to a specific department.
+7.	Transfer an employee from one department to another.
+8.	Mark an order as shipped and update the shipped date.
+9.	Retrieve the highest salary among all employees.
+
+
+
+
+Step-by-Step Algorithm:
+1. Create Tables:
+Create Emp Table:
+
+Create a table called Emp to store employee information with the following columns:
+EmployeeID (Primary Key)
+FirstName
+LastName
+Age
+DepartmentID (Foreign Key)
+Salary
+Create Department Table:
+
+Create a table called Department to store department details with the following columns:
+DepartmentID (Primary Key)
+DepartmentName
+ManagerID (EmployeeID of the manager)
+Create Orders Table:
+
+Create a table called Orders to store customer order details with the following columns:
+OrderID (Primary Key)
+CustomerID (Foreign Key)
+OrderDate
+ShippedDate
+Status (e.g., 'Pending', 'Shipped')
+Create Customers Table:
+
+Create a table called Customers to store customer information with the following columns:
+CustomerID (Primary Key)
+FirstName
+LastName
+Age
+Create Products Table:
+
+Create a table called Products to store product details with the following columns:
+ProductID (Primary Key)
+ProductName
+Category
+Price
+2. Insert Data into Tables:
+Insert Records into Emp Table:
+
+Insert 5 records into the Emp table representing different employees with their details (EmployeeID, Name, Age, DepartmentID, and Salary).
+Insert Records into Department Table:
+
+Insert 5 records into the Department table representing different departments with details like DepartmentID, DepartmentName, and ManagerID.
+Insert Records into Customers Table:
+
+Insert 5 records into the Customers table representing different customers with their details (CustomerID, Name, Age).
+Insert Records into Orders Table:
+
+Insert 5 records into the Orders table representing different orders with details like OrderID, CustomerID, OrderDate, ShippedDate, and Status.
+Insert Records into Products Table:
+
+Insert 5 records into the Products table representing different products with details like ProductID, ProductName, Category, and Price.
+3. Perform Various SQL Operations:
+Update Salary of Employees in Sales Department:
+
+Update the salary of all employees in the Sales department by increasing it by 10%.
+Query the Emp table to verify the salary update for employees in the Sales department.
+Delete Orders Before a Certain Date:
+
+Delete all orders placed before 2024-09-01 from the Orders table.
+Query the Orders table to verify that the deletion was successful.
+Retrieve Customers Who Made a Purchase in the Last Month:
+
+Retrieve the names and ages of customers who have made a purchase within the last month by joining the Customers and Orders tables.
+Increase Price of Products in Electronics Category:
+
+Increase the price of all products in the "Electronics" category by 5%.
+Query the Products table to verify the price update for electronics products.
+Find the Total Number of Products in Each Category:
+
+Count the number of products in each category by grouping the data in the Products table.
+Assign a New Manager to a Department:
+
+Update the Department table by assigning a new manager (ManagerID) to a specific department (e.g., DepartmentID = 2).
+Query the Department table to verify the manager assignment.
+Transfer an Employee to Another Department:
+
+Update the Emp table by transferring an employee (e.g., EmployeeID = 101) to a new department (e.g., DepartmentID = 3).
+Query the Emp table to verify the department transfer.
+Mark an Order as Shipped and Update the Shipped Date:
+
+Update the Orders table to mark a specific order (e.g., OrderID = 5001) as "Shipped" and set the ShippedDate to the current date (SYSDATE).
+Query the Orders table to verify the shipped status and shipped date.
+Retrieve the Highest Salary Among Employees:
+
+Retrieve the highest salary from the Emp table using the MAX() function.
+4. Conclusion:
+The SQL operations will modify and query the database based on employee details, department structure, customer orders, product prices, and more. After the updates, the user can verify each change by querying the respective tables.
+

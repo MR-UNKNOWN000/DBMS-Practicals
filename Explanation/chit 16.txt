@@ -1,0 +1,124 @@
+
+Chit No. 16: SQL Queries – all types of Join, Sub-Query and View:
+Write at least10 SQL queries for suitable database application using SQL DML statements.
+JOINS are used in SQL to combine records from two or more tables based on a related column. Common JOIN types include INNER JOIN, LEFT JOIN, RIGHT JOIN, and FULL OUTER JOIN. Here’s a breakdown of each type, along with example problems and solutions.
+set up a schema for a movie database with tables such as movies, directors, actors, genres, cast, and ratings. Each table will include foreign keys to maintain referential integrity.
+1. List all actors along with the titles of movies in which they appeared.
+2.List all movies and their directors, including movies that don’t have an assigned director.
+3. List all actors and the roles they played, including actors who haven’t been cast in any movie.
+4 List all movies and the genres, including genres without any movies and movies without an assigned genre.
+5.List all pairs of movies directed by the same director.
+Subquery in WHERE clause(any one below)
+1.Find the titles of movies that received a rating higher than the average rating of all movies.
+2.Find the names of all directors who have directed more than 5 movies.
+
+
+
+### Algorithm for SQL Movie Database Schema and Operations
+
+The following is an algorithm for creating and managing a movie database using SQL, based on the schema, data insertion, and queries provided:
+
+---
+
+### **Step 1: Create Tables**
+
+1. **Create `Genres` Table**:
+   - **Action**: Create a table to store movie genres with the following columns:
+     - `GenreID`: Unique identifier for each genre (Primary Key).
+     - `GenreName`: Name of the genre.
+
+2. **Create `Directors` Table**:
+   - **Action**: Create a table to store director details with the following columns:
+     - `DirectorID`: Unique identifier for each director (Primary Key).
+     - `DirectorName`: Name of the director.
+
+3. **Create `Actors` Table**:
+   - **Action**: Create a table to store actor details with the following columns:
+     - `ActorID`: Unique identifier for each actor (Primary Key).
+     - `ActorName`: Name of the actor.
+
+4. **Create `Movies` Table**:
+   - **Action**: Create a table to store movie details with the following columns:
+     - `MovieID`: Unique identifier for each movie (Primary Key).
+     - `Title`: Title of the movie.
+     - `ReleaseYear`: Year the movie was released.
+     - `GenreID`: Foreign Key linking to `Genres` table.
+     - `DirectorID`: Foreign Key linking to `Directors` table.
+
+5. **Create `Cast` Table**:
+   - **Action**: Create a table to map actors to movies with the following columns:
+     - `MovieID`: Foreign Key linking to `Movies` table.
+     - `ActorID`: Foreign Key linking to `Actors` table.
+     - `Role`: The role played by the actor in the movie.
+     - **Primary Key**: Combination of `MovieID` and `ActorID`.
+
+6. **Create `Ratings` Table**:
+   - **Action**: Create a table to store ratings for each movie with the following columns:
+     - `MovieID`: Foreign Key linking to `Movies` table.
+     - `Rating`: Rating of the movie.
+
+---
+
+### **Step 2: Insert Data into Tables**
+
+1. **Insert Data into `Genres` Table**:
+   - **Action**: Insert genres into the `Genres` table with unique `GenreID` values and corresponding `GenreName`.
+
+2. **Insert Data into `Directors` Table**:
+   - **Action**: Insert directors into the `Directors` table with unique `DirectorID` values and corresponding `DirectorName`.
+
+3. **Insert Data into `Actors` Table**:
+   - **Action**: Insert actors into the `Actors` table with unique `ActorID` values and corresponding `ActorName`.
+
+4. **Insert Data into `Movies` Table**:
+   - **Action**: Insert movies into the `Movies` table, including the `GenreID` and `DirectorID` to establish foreign key relationships.
+
+5. **Insert Data into `Cast` Table**:
+   - **Action**: Insert actor-role assignments into the `Cast` table by linking `MovieID` and `ActorID` for each role.
+
+6. **Insert Data into `Ratings` Table**:
+   - **Action**: Insert movie ratings into the `Ratings` table by linking `MovieID` with a corresponding rating.
+
+---
+
+### **Step 3: SQL Queries (JOINS, Subqueries, and Views)**
+
+1. **List all actors along with the titles of movies in which they appeared**:
+   - **Action**: Use an `INNER JOIN` between `Actors`, `Cast`, and `Movies` to retrieve the names of actors and the corresponding movie titles.
+
+2. **List all movies and their directors, including movies that don’t have an assigned director**:
+   - **Action**: Use a `LEFT JOIN` between `Movies` and `Directors` to include movies that might not have an assigned director.
+
+3. **List all actors and the roles they played, including actors who haven’t been cast in any movie**:
+   - **Action**: Use a `LEFT JOIN` between `Actors` and `Cast` to include actors who haven’t been cast in any movie, alongside their roles if available.
+
+4. **List all movies and the genres, including genres without any movies and movies without an assigned genre**:
+   - **Action**: Use a `LEFT JOIN` between `Movies` and `Genres` to include genres without any associated movies and movies without an assigned genre.
+
+5. **List all pairs of movies directed by the same director**:
+   - **Action**: Use a `JOIN` between two instances of `Movies` (aliased as `m1` and `m2`) based on the same `DirectorID`, ensuring unique pairs by using `WHERE m1.MovieID < m2.MovieID`.
+
+---
+
+### **Step 4: Subqueries**
+
+1. **Find the titles of movies that received a rating higher than the average rating of all movies**:
+   - **Action**: Use a subquery to calculate the average rating from the `Ratings` table, and another subquery to retrieve the `MovieID` values for movies whose rating is greater than the calculated average.
+
+2. **Find the names of all directors who have directed more than 5 movies**:
+   - **Action**: Use a subquery to count the number of movies per director and filter those having more than 5 movies.
+
+---
+
+### **Step 5: Create a View**
+
+1. **Create a View to List Movies with Their Directors and Genres**:
+   - **Action**: Create a `VIEW` called `MovieDetails` that joins `Movies`, `Genres`, and `Directors` to display movie titles, release years, genres, and directors in one result set.
+   - **Query**: After creating the view, query it to list all movies with their corresponding director and genre.
+
+---
+
+### **Step 6: Conclusion**
+
+- The algorithm helps in organizing a movie database with proper relationships between tables (`Movies`, `Directors`, `Actors`, `Genres`, `Cast`, and `Ratings`).
+- By using various SQL features such as **JOINS**, **Subqueries**, and **Views**, we can retrieve meaningful insights like movie titles, their genres, directors, ratings, and more.

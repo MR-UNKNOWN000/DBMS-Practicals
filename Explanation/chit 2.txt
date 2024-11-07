@@ -1,0 +1,123 @@
+Chit 2 : Write at least 10 SQL queries on the suitable database application using SQL DML statements.
+Emp(Id,Name,Joining date,salary,dept)
+1. Write a query in SQL to insert single record into table.
+2. Write a query in SQL to multiple rows into table.
+3.  Display all the records from table.
+4.  Display all the records from table where salary is >8000.
+5. Write a query in SQL to display records in ascending order of joining date .
+5. Write a query in SQL to update salary of employee id=100 as 50000.
+6. Write a query to remove record of employee id=106 from table;
+7. Use DISTINCT  keyword to display salary of an employee.
+8. Write a query in SQL to display minimum / maximum salary of an employee.
+9. Write a query in SQL to display total number of employees.
+10. Display sum of salaries of dept=10.
+
+
+
+Here is an algorithm for each of the SQL DML operations in the code, broken down step-by-step:
+
+---
+
+### Table Creation
+
+1. **Define the EMP Table**  
+   - Create an `EMP` table with the following fields:
+     - `ID`: Unique identifier for each employee (primary key).
+     - `Name`: The name of the employee, with a maximum length of 50 characters.
+     - `Joining_date`: The date the employee joined.
+     - `Salary`: The employee’s salary, with a maximum of 10 digits and 2 decimal places.
+     - `Dept`: The department ID associated with the employee.
+
+---
+
+### 1. Insert a Single Record into the Table
+
+2. **Insert a Single Record**
+   - Insert one row into the `EMP` table with specific values for each column:
+     - `ID`: 101, `Name`: 'Alice', `Joining_date`: January 15, 2023, `Salary`: 8500, `Dept`: 10.
+
+---
+
+### 2. Insert Multiple Rows into the Table
+
+3. **Insert Multiple Rows**
+   - Insert several rows into the `EMP` table in a single operation:
+     - Insert four rows with values for `ID`, `Name`, `Joining_date`, `Salary`, and `Dept` for each employee.
+
+---
+
+### 3. Display All the Records from the Table
+
+4. **Select All Records**
+   - Retrieve all columns and records from the `EMP` table without any filtering.
+
+---
+
+### 4. Display All the Records Where Salary is Greater Than 8000
+
+5. **Select Records Based on Condition**
+   - Retrieve all columns and records where the `Salary` is greater than 8000.
+
+---
+
+### 5. Display Records in Ascending Order of Joining Date
+
+6. **Select and Sort Records**
+   - Retrieve all columns and records from the `EMP` table.
+   - Sort records by `Joining_date` in ascending order.
+
+---
+
+### 6. Update the Salary of Employee with ID = 100
+
+7. **Update a Record**
+   - Find the record in the `EMP` table where `ID` equals 100.
+   - Update the `Salary` field of that record to 50000.
+
+---
+
+### 7. Remove the Record of Employee with ID = 106
+
+8. **Delete a Record**
+   - Locate and delete the record in the `EMP` table where `ID` is 106.
+
+---
+
+### 8. Use DISTINCT Keyword to Display Unique Salary Values
+
+9. **Select Distinct Salaries**
+   - Retrieve only unique values from the `Salary` column in the `EMP` table to avoid duplicates.
+
+---
+
+### 9. Display the Minimum and Maximum Salary of an Employee
+
+10. **Calculate Min and Max Salaries**
+    - Use `MIN` to find the lowest salary in the `Salary` column.
+    - Use `MAX` to find the highest salary in the `Salary` column.
+
+---
+
+### 10. Display the Total Number of Employees
+
+11. **Count Records**
+    - Use `COUNT` to calculate the total number of rows (employees) in the `EMP` table.
+
+---
+
+### 11. Display the Sum of Salaries for Employees in Department 10
+
+12. **Calculate Total Salary by Department**
+    - Use `SUM` to calculate the total of `Salary` for employees in `Dept` 10.
+
+---
+
+### Summary of Steps
+
+Each query performs a specific SQL DML task on the `EMP` table, involving data manipulation and retrieval:
+- **Data Insertion** (Queries 1 & 2)
+- **Data Retrieval** (Queries 3, 4, 5, 8, 9, 10, and 11)
+- **Data Update** (Query 6)
+- **Data Deletion** (Query 7)
+
+These queries utilize SQL functions, filtering, and ordering techniques to manipulate and analyze the `EMP` table data.

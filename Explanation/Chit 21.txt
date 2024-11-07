@@ -1,0 +1,105 @@
+Chit No. 21 : Consider the following Relational Database.
+Student (roll_no, name,city,marks,c_no) 
+Course (c_no,cname,fees) Construct Queries into Relational algebra. 
+1.	Write a query in SQL to insert single record into table.
+2.	Write a query in SQL to multiple rows into table.
+3.	Display all the records from table.
+4.	List Student Details enrolled for ‘BBA (C.A)’ Course. 
+5.	List the Course having fees < 20000 
+6.	Display all students living in either ‘Nasik’ or ‘Pune’ city. 
+7.	Display Course detail for student ‘Gaurav Sharma’.
+
+
+
+### Algorithm for the SQL Code:
+
+Here is an algorithm that outlines the steps taken to execute the SQL code for creating tables, inserting records, and running the specified queries.
+
+---
+
+### **Step 1: Create Tables**
+
+**1.1 Create `Course` Table:**
+- **Input:** Define the table structure with columns `c_no`, `cname`, and `fees`.
+- **Process:**
+  - Define `c_no` as a primary key.
+  - Define `cname` as a non-nullable field (VARCHAR).
+  - Define `fees` as a non-nullable numeric field with a precision of 10 digits and 2 decimal points.
+- **Output:** The `Course` table is created with the specified columns.
+
+**1.2 Create `Student` Table:**
+- **Input:** Define the table structure with columns `roll_no`, `name`, `city`, `marks`, and `c_no`.
+- **Process:**
+  - Define `roll_no` as a primary key.
+  - Define `name` as a non-nullable field (VARCHAR).
+  - Define `city` as an optional VARCHAR field.
+  - Define `marks` as a numeric field (5 digits, 2 decimal points).
+  - Define `c_no` as a foreign key that references the `c_no` column in the `Course` table.
+- **Output:** The `Student` table is created with the specified columns and foreign key constraints.
+
+---
+
+### **Step 2: Insert Data**
+
+**2.1 Insert Single Record into `Course` Table:**
+- **Input:** A single record with `c_no = 101`, `cname = 'BBA (C.A)'`, and `fees = 25000`.
+- **Process:** Use the `INSERT INTO` SQL statement to add this record to the `Course` table.
+- **Output:** The record is inserted into the `Course` table.
+
+**2.2 Insert Multiple Records into `Course` Table:**
+- **Input:** Multiple records, each with different `c_no`, `cname`, and `fees` values.
+- **Process:** Use the `INSERT INTO` SQL statement with multiple `VALUES` clauses to insert multiple records into the `Course` table.
+- **Output:** All records are inserted into the `Course` table.
+
+**2.3 Insert Multiple Records into `Student` Table:**
+- **Input:** Multiple records, each with `roll_no`, `name`, `city`, `marks`, and `c_no` values.
+- **Process:** Use the `INSERT INTO` SQL statement with multiple `VALUES` clauses to insert multiple records into the `Student` table.
+- **Output:** All records are inserted into the `Student` table.
+
+---
+
+### **Step 3: Execute Queries**
+
+**3.1 Display All Records from the `Student` Table:**
+- **Input:** No specific input, just the need to display all student records.
+- **Process:** Use the `SELECT * FROM Student;` query to fetch all records from the `Student` table.
+- **Output:** A result set containing all records from the `Student` table.
+
+**3.2 List Student Details Enrolled for ‘BBA (C.A)’ Course:**
+- **Input:** Course name `BBA (C.A)`.
+- **Process:** Use a `JOIN` between the `Student` and `Course` tables on the `c_no` field. Apply the `WHERE` clause to filter students enrolled in the `BBA (C.A)` course.
+- **Output:** A result set containing details of students enrolled in the specified course.
+
+**3.3 List the Course Details Having Fees < 20,000:**
+- **Input:** A fee threshold value of `20000`.
+- **Process:** Use the `SELECT` statement with the `WHERE` clause to filter courses with fees less than `20000`.
+- **Output:** A result set containing courses with fees less than the specified threshold.
+
+**3.4 Display All Students Living in Either ‘Nasik’ or ‘Pune’:**
+- **Input:** A list of cities `Nasik` and `Pune`.
+- **Process:** Use the `SELECT` statement with the `WHERE` clause and the `IN` operator to filter students who live in either of the specified cities.
+- **Output:** A result set containing students who live in either `Nasik` or `Pune`.
+
+**3.5 Display Course Details for Student ‘Gaurav Sharma’:**
+- **Input:** Student name `Gaurav Sharma`.
+- **Process:** Use a `JOIN` between the `Student` and `Course` tables on the `c_no` field. Apply the `WHERE` clause to filter the course details for the specified student.
+- **Output:** A result set containing course details for the student `Gaurav Sharma`.
+
+---
+
+### **Overall Flow:**
+1. **Create Tables:** Define the structure of the `Course` and `Student` tables with primary and foreign key relationships.
+2. **Insert Data:** Insert data into both tables, ensuring that foreign key constraints are respected.
+3. **Execute Queries:**
+   - Fetch all records from the `Student` table.
+   - Filter students based on specific conditions like course enrollment and city.
+   - Join tables to fetch related data (course details for a student).
+4. **Output:** Each query produces a result set as per the specified conditions.
+
+---
+
+### Summary of Key Steps:
+
+1. **Create Schema:** Design the tables and relationships.
+2. **Insert Data:** Populate the tables with sample records.
+3. **Execute Queries:** Use `SELECT`, `JOIN`, and `WHERE` clauses to filter and display the required data.

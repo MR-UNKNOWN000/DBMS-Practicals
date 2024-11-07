@@ -1,0 +1,94 @@
+Chit No. 22 : MongoDB – Map-reduces operations:
+Implement Map reduces operation with suitable example using MongoDB
+
+
+### Algorithm for Map-Reduce in MongoDB to Calculate Total Salary by Department
+
+Here’s the algorithm for the Map-Reduce operation used in your code:
+
+---
+
+### **Step 1: Create Database and Insert Data**
+
+1. **Select the Database:**
+   - **Action**: Switch to the `CompanyDB` database using `use CompanyDB`.
+
+2. **Insert Employee Records:**
+   - **Action**: Insert multiple employee records into the `Employees` collection, where each employee has the following fields:
+     - `EmployeeID`
+     - `Name`
+     - `Department`
+     - `Salary`
+
+   The records include employees from different departments (`HR`, `Finance`, `IT`) with their respective salary information.
+
+---
+
+### **Step 2: Define Map Function**
+
+3. **Define the Map Function:**
+   - **Action**: Define a JavaScript function (`mapFunction`) that will process each document in the `Employees` collection:
+     - **Input**: Each document (employee record).
+     - **Process**: For each employee document, emit a key-value pair where:
+       - **Key**: `Department` (e.g., `HR`, `Finance`, `IT`).
+       - **Value**: `Salary` (the employee’s salary).
+   - **Result**: The map function emits a key-value pair for each employee with their department as the key and salary as the value.
+
+---
+
+### **Step 3: Define Reduce Function**
+
+4. **Define the Reduce Function:**
+   - **Action**: Define a JavaScript function (`reduceFunction`) that will process the emitted key-value pairs:
+     - **Input**: The key (department) and an array of values (salaries).
+     - **Process**: The reduce function takes the array of salary values and sums them up using `Array.sum(values)`.
+     - **Output**: Return the sum of all salaries for each department.
+
+---
+
+### **Step 4: Execute Map-Reduce Operation**
+
+5. **Run Map-Reduce:**
+   - **Action**: Call the `mapReduce()` function on the `Employees` collection.
+     - **Parameters**:
+       - **mapFunction**: The map function to process each employee and emit department-salary pairs.
+       - **reduceFunction**: The reduce function to sum the salaries for each department.
+       - **Out**: Specify the output collection (`totalSalariesByDepartment`) where the results of the map-reduce operation will be stored.
+
+   The result of the map-reduce operation will be stored in a new collection named `totalSalariesByDepartment`, which will contain:
+   - The department as `_id`.
+   - The total salary for each department as the `value`.
+
+---
+
+### **Step 5: View the Result**
+
+6. **View the Output Collection:**
+   - **Action**: Use the `find()` method to query the newly created `totalSalariesByDepartment` collection.
+   - **Output**: The query will return the total salary per department, in the format:
+     - `{ "_id" : <Department>, "value" : <Total Salary> }`.
+
+---
+
+### **Expected Output:**
+
+The expected result would be a list of departments with their total salaries:
+
+```javascript
+{ "_id" : "HR", "value" : 130000 }
+{ "_id" : "Finance", "value" : 163000 }
+{ "_id" : "IT", "value" : 145000 }
+```
+
+Each department's total salary is the sum of the salaries of the employees in that department.
+
+---
+
+### **Summary of Algorithm:**
+
+1. **Setup**: Create a `CompanyDB` and insert employee records into the `Employees` collection.
+2. **Map Function**: Emit department as the key and salary as the value for each employee.
+3. **Reduce Function**: Sum the salaries for each department.
+4. **Map-Reduce Execution**: Use the `mapReduce()` function to process the `Employees` collection and store the result in `totalSalariesByDepartment`.
+5. **Result**: Query and display the total salary per department.
+

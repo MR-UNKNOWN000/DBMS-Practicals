@@ -1,0 +1,33 @@
+Chit No. 6 : Named PL/SQL Block: PL/SQL Stored Procedure and Stored Function.
+Write a Stored Procedure namely proc_Grade for the categorization of student. If marks scored by students in examination is <=1500 and marks>=990 then student will be placed in distinction category if marks scored are between 989 and900 category is first class, if marks899and 825 category is Higher Second Class.
+Write a PL/SQLblock to use procedure created with above requirement. Stud_Marks(name, total_marks)   Result(Roll,Name, Class)
+
+
+
+
+Here’s a breakdown of the algorithm for this PL/SQL code, which includes a procedure proc_Grade to categorize a student based on their total marks:
+
+1. Define Procedure proc_Grade
+Input Parameters:
+p_name: A string (VARCHAR2) containing the student’s name.
+p_total_marks: A number representing the student's total marks.
+Output Parameter:
+p_class: A string (VARCHAR2) that will store the student's classification based on their total marks.
+2. Classification Logic in the Procedure proc_Grade
+Check the value of p_total_marks and assign p_class based on these conditions:
+If p_total_marks is between 990 and 1500 (inclusive), assign p_class := 'Distinction'.
+If p_total_marks is between 900 and 989 (inclusive), assign p_class := 'First Class'.
+If p_total_marks is between 825 and 899 (inclusive), assign p_class := 'Higher Second Class'.
+If none of these conditions are met (marks below 825 or invalid marks), assign p_class := 'No Category'.
+3. Declare Variables in Anonymous Block
+v_name: A variable to store the student’s name.
+v_total_marks: A variable to store the student’s total marks.
+v_class: A variable to store the classification returned by the procedure.
+4. Initialize Example Data
+Assign example values to v_name and v_total_marks to simulate input data.
+Here, v_name is set to 'John Doe', and v_total_marks is set to 1020 (adjust this value to test different scenarios).
+5. Call the Procedure
+Execute the proc_Grade procedure using v_name, v_total_marks, and v_class as arguments.
+v_class will be updated with the classification based on v_total_marks.
+6. Display Output
+Use DBMS_OUTPUT.PUT_LINE to print the student's name, total marks, and classification (v_class).

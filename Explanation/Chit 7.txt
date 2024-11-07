@@ -1,0 +1,41 @@
+Chit No. 7 : Cursors:(All types: Implicit, Explicit, Cursor FOR Loop, Parameterized Cursor)
+Write a PL/SQL block of code using parameterized Cursor that will merge the data available in the newly created table N_Roll Call with the data available in the table O_RollCall. If the data in the first table already exist in the second table then that data should be skipped.
+ 
+
+Here's the algorithm for this PL/SQL code that merges data from the N_RollCall table into the O_RollCall table, ensuring no duplicates based on Roll_No.
+
+Step-by-Step Algorithm
+Create Tables N_RollCall and O_RollCall:
+
+N_RollCall and O_RollCall tables are created with columns:
+Roll_No (NUMBER): Unique identifier for each record.
+Name (VARCHAR2): Name of the student.
+Attendance (CHAR): Attendance status (e.g., 'P' for Present, 'A' for Absent).
+Insert Test Data into Tables:
+
+Populate N_RollCall with sample records.
+Populate O_RollCall with a sample record that may already exist in N_RollCall to test the duplication check.
+Declare PL/SQL Block:
+
+Parameterized Cursor n_rollcall_cur: Defined to fetch records from N_RollCall based on a specified Roll_No.
+Variables:
+v_roll_no, v_name, v_attendance: Hold values fetched from N_RollCall via the cursor.
+record_exists: Used to check if a record with the same Roll_No exists in O_RollCall.
+Loop Through Each Row in N_RollCall:
+
+Using a FOR loop, iterate through each record in N_RollCall by selecting Roll_No from each row.
+For each iteration:
+Open Cursor n_rollcall_cur with the Roll_No as a parameter to fetch the corresponding data from N_RollCall.
+Fetch Data into v_roll_no, v_name, and v_attendance variables.
+Close the Cursor after fetching the record.
+Check for Duplicate in O_RollCall:
+
+Using a SELECT COUNT(*) query, check if a record with the same Roll_No exists in O_RollCall.
+If record_exists is 0 (no matching record):
+Insert the record from N_RollCall into O_RollCall.
+Commit the Changes:
+
+Commit the transaction to save all inserted records in O_RollCall.
+Verify the Merged Data:
+
+Execute a SELECT query on O_RollCall to confirm that data from N_RollCall has been correctly inserted without duplicating records.

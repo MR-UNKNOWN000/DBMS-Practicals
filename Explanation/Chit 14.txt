@@ -1,0 +1,142 @@
+Chit No. 14 : Design and Develop SQLDDL statements which demonstrate the use of SQL objects such as Table, View, Index, Sequence, Synonym, different constraints etc.
+
+Employee (empno,name,office,age)
+Books(isbn,title,authors,publisher)
+Loan(empno, isbn,date)
+Write the following queries in relational algebra.
+Q. Create a view of table employee with same structure and all the records.
+Q. Create a new view having specific record but all the fields from existing table.
+Q. Create Index for a table book on column name title.
+Q, Create Index for a table book on column name isbn, publisher.
+Q. Create a synonym named ‘EMP_INFO  for the ‘EMPLOYEE’ table.
+
+
+
+
+
+To break down the process into an algorithm for generating the required outputs for Chit No. 14, we can follow these steps:
+
+### **Algorithm for Chit No. 14**
+
+1. **Create the Tables:**
+   - Define the structure of three tables: `Employee`, `Books`, and `Loan`.
+   - Each table contains necessary columns and constraints such as primary keys and foreign keys to maintain relationships.
+
+   **Steps:**
+   - **Create the Employee Table**: Define columns (`empno`, `name`, `office`, `age`) with constraints for primary key and age validation.
+   - **Create the Books Table**: Define columns (`isbn`, `title`, `authors`, `publisher`) with a primary key on `isbn`.
+   - **Create the Loan Table**: Define columns (`empno`, `isbn`, `loan_date`) and foreign key constraints linking to `Employee` and `Books` tables.
+
+2. **Insert Data into Tables:**
+   - Insert sample data into the `Employee`, `Books`, and `Loan` tables.
+
+   **Steps:**
+   - Insert multiple records into the `Employee` table with employee details.
+   - Insert multiple records into the `Books` table with book information.
+   - Insert multiple records into the `Loan` table with the loaned books and their respective employees.
+
+3. **Create Views:**
+   - Create views to simplify queries and provide structured data.
+     - `EmployeeView`: A view that retrieves all employee details.
+     - `EmployeeOlderThan30`: A view that retrieves employee details for employees older than 30.
+
+   **Steps:**
+   - Create the `EmployeeView` that selects all columns from the `Employee` table.
+   - Create the `EmployeeOlderThan30` view that filters employees based on age greater than 30.
+
+4. **Create Indexes:**
+   - Create indexes to optimize searches and improve query performance.
+
+   **Steps:**
+   - Create an index on the `title` column in the `Books` table to optimize search by title.
+   - Create a combined index on the `isbn` and `publisher` columns of the `Books` table.
+
+5. **Create Synonym:**
+   - Create a synonym `EMP_INFO` for the `Employee` table to allow alternate access to the table.
+
+   **Steps:**
+   - Create the synonym `EMP_INFO` to act as an alias for the `Employee` table.
+
+6. **Verify the Views and Indexes:**
+   - Perform select queries to ensure the views and indexes are functioning correctly.
+   - Verify the views by querying them to confirm they return the expected records.
+   - Verify the indexes by checking their existence in the `USER_INDEXES` and `USER_IND_COLUMNS` views.
+   - Verify the synonym by querying it and ensuring it retrieves data from the `Employee` table.
+
+### **Detailed Algorithm:**
+
+1. **Start.**
+2. **Create `Employee`, `Books`, and `Loan` tables** with the following specifications:
+   - Define the columns, primary keys, foreign keys, and constraints.
+   - Ensure the `Loan` table has references to `Employee` and `Books` via foreign keys.
+3. **Insert sample data** into the `Employee`, `Books`, and `Loan` tables:
+   - Insert employee details with `empno`, `name`, `office`, and `age`.
+   - Insert book information with `isbn`, `title`, `authors`, and `publisher`.
+   - Insert loan records with `empno`, `isbn`, and `loan_date`.
+4. **Create Views:**
+   - **EmployeeView**: Create a view that selects all columns from the `Employee` table.
+   - **EmployeeOlderThan30**: Create a view that selects employees older than 30.
+5. **Create Indexes:**
+   - **idx_books_title**: Create an index on the `title` column of the `Books` table.
+   - **idx_books_isbn_publisher**: Create a combined index on the `isbn` and `publisher` columns of the `Books` table.
+6. **Create Synonym:**
+   - Create a synonym `EMP_INFO` for the `Employee` table.
+7. **Verify Outputs:**
+   - **Verify the `EmployeeView`**: Query `EmployeeView` and check for all employee records.
+   - **Verify the `EmployeeOlderThan30` view**: Query `EmployeeOlderThan30` and check for employees older than 30.
+   - **Verify the Indexes**: Query `USER_INDEXES` and `USER_IND_COLUMNS` to check the created indexes.
+   - **Verify the Synonym**: Query `EMP_INFO` to ensure it returns the records from the `Employee` table.
+8. **End.**
+
+### **Expected Outputs for Verification:**
+
+1. **For `EmployeeView`:**
+   - Returns all records from the `Employee` table.
+
+   Example:
+   ```text
+   EMPNO | NAME    | OFFICE      | AGE
+   --------------------------------------
+   1     | Alice   | NYC Office  | 30
+   2     | Bob     | LA Office   | 45
+   3     | Charlie | SF Office   | 35
+   ```
+
+2. **For `EmployeeOlderThan30`:**
+   - Returns only employees older than 30.
+
+   Example:
+   ```text
+   EMPNO | NAME    | OFFICE      | AGE
+   --------------------------------------
+   2     | Bob     | LA Office   | 45
+   3     | Charlie | SF Office   | 35
+   ```
+
+3. **For `USER_INDEXES` and `USER_IND_COLUMNS` (Verifying Indexes):**
+   - Lists the created indexes on the `Books` table.
+
+   Example:
+   ```text
+   INDEX_NAME            | TABLE_NAME
+   ---------------------------------------
+   IDX_BOOKS_TITLE       | BOOKS
+   IDX_BOOKS_ISBN_PUBLISHER | BOOKS
+   ```
+
+4. **For `EMP_INFO` (Synonym Check):**
+   - Returns all records from the `Employee` table via the synonym.
+
+   Example:
+   ```text
+   EMPNO | NAME    | OFFICE      | AGE
+   --------------------------------------
+   1     | Alice   | NYC Office  | 30
+   2     | Bob     | LA Office   | 45
+   3     | Charlie | SF Office   | 35
+   ```
+
+---
+
+### **Conclusion:**
+This algorithm outlines the steps required to set up the database schema, insert data, create views, indexes, and synonyms, and verify the results by querying the views, indexes, and synonym. By following this process, you can ensure that the database operations are executed correctly and the output is as expected.

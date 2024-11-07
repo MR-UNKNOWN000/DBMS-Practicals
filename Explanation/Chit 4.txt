@@ -1,0 +1,64 @@
+Chit No. 4 : Unnamed PL/SQLcode block: Use of Control structure and Exception handling is mandatory.
+Suggested Problem statement:
+Consider Tables:
+1.	Borrower(Roll_no, Name, Date of Issue, Name of Book, Status)
+2.	Fine(Roll_no, Date, Amt)
+•	Accept Roll_no and Name of Book from user.
+•	Check the number of days (from date of issue).
+•	If days are between 15 to 30 then fine amount will be Rs 5per day.
+      If no. of days>30, per day fine will be Rs 50 per day and for days less than 30, Rs. 5 per day.
+•	After submitting the book, status will change from I to R.
+•	If condition of fine is true, then details will be stored into fine table.
+•	Also handles the exception by named exception handler or user define exception handler.
+
+
+
+
+Here’s the algorithm for the provided code, which includes setting up a library management system with fines for late returns:
+
+---
+
+### **Step 1**: Create and Use Database
+1. **Create Database**: Create a database named `library`.
+2. **Use Database**: Switch to the `library` database for further operations.
+
+### **Step 2**: Create Tables
+1. **Create `Borrower` Table**:
+   - Fields: `Rollno` (int), `Name` (varchar), `DateofIssue` (date), `NameofBook` (varchar), `Status` (varchar).
+   - Stores details of book borrowers, including the book issue date and status.
+2. **Create `Fine` Table**:
+   - Fields: `Rollno` (int), `Date` (date), `Amount` (int).
+   - Stores fine details for late returns by Roll number.
+
+### **Step 3**: Insert Data into `Borrower` Table
+1. Insert sample records of borrowers, including their roll number, name, date of issue, name of the book, and initial status (`I` for issued).
+
+### **Step 4**: Create Procedures
+1. **Procedure `calc_Fine`**: Calculates fines for borrowers who return books late.
+   - **Parameters**:
+     - `r`: Roll number of the borrower.
+     - `b`: Name of the borrowed book.
+   - **Logic**:
+     1. Retrieve `DateofIssue` for the specified `Rollno` and `NameofBook`.
+     2. Calculate the difference between the current date (`curdate()`) and `DateofIssue`.
+     3. Based on `diff` (days since issue), determine the fine amount:
+        - If `diff` is between 15 and 30 days, insert a fine calculated as `diff * 5`.
+        - If `diff` is over 30 days, insert a fine calculated as `diff * 50`.
+2. **Procedure `submit`**: Updates borrower’s record and clears any fines upon book return.
+   - **Parameters**:
+     - `r`: Roll number of the borrower.
+   - **Logic**:
+     1. Update the `Status` in the `Borrower` table to `R` (returned) for the specified `Rollno`.
+     2. Delete any records from the `Fine` table associated with the `Rollno`.
+
+### **Step 5**: Execute Procedures and Display Data
+1. **Calculate Fine**:
+   - Call `calc_Fine` for each borrower with the `Rollno` and `NameofBook` parameters.
+   - Check fines in the `Fine` table using `SELECT * FROM Fine`.
+2. **Submit Books**:
+   - Call `submit` for each borrower using their `Rollno` to update status and clear fines.
+   - Check the updated `Borrower` and `Fine` tables to confirm all books are marked as returned, and fines are cleared.
+
+---
+
+This algorithm provides a clear sequence of actions to manage library borrowing records and calculate/clear fines for late returns.

@@ -1,0 +1,69 @@
+Chit No. 5 : Write a PL/SQL code block to calculate the area of a circle for a value of radius varying from 5 to 9. Store the radius and the corresponding values of calculated area in an empty table named areas, consisting of two columns, radius and area.
+
+
+Here’s the algorithm for the PL/SQL code you provided, which creates a table and inserts the areas of circles for specific radii:
+
+### Algorithm Overview
+
+1. **Step 1: Create the `areas` table**
+   - Define a table named `areas` with two columns:
+     - `radius`: a `NUMBER` column that stores the radius of a circle (with 2 decimal places).
+     - `area`: a `NUMBER` column that stores the area of a circle (with 2 decimal places).
+
+2. **Step 2: PL/SQL block to calculate the area of a circle**
+   - **Declare variables**:
+     - `r`: A variable to store the current radius value during the loop (type `NUMBER(5,2)`).
+     - `a`: A variable to store the calculated area of the circle (type `NUMBER(10,2)`).
+   
+   - **For Loop**: 
+     - Use a `FOR` loop to iterate through radius values from 5 to 9.
+       - For each radius (`r`), calculate the area of the circle using the formula:
+         \[
+         \text{Area} = \pi \times r^2
+         \]
+         where `π ≈ 3.14159`.
+       
+   - **Insert Data into Table**:
+     - Insert the current `radius` (`r`) and the calculated `area` (`a`) into the `areas` table.
+
+   - **Commit the transaction**:
+     - After the loop finishes, commit the transaction to save the inserted records into the database.
+
+### Detailed Step-by-Step Algorithm
+
+1. **Create the `areas` table**:
+   - Define a table with two columns:
+     - `radius` (to store the radius of the circle),
+     - `area` (to store the area of the circle).
+
+2. **Begin PL/SQL anonymous block**:
+   - Declare variables:
+     - `r` (to store radius, initialized to values between 5 and 9),
+     - `a` (to store the calculated area of each circle).
+
+3. **For Loop** (radius from 5 to 9):
+   - **Start the loop**: The loop will iterate with `r` taking values from 5 to 9.
+     - **Calculate the area**: For each value of `r`, calculate the area using the formula \( a = \pi r^2 \), where \( \pi \approx 3.14159 \).
+     - **Insert the radius and area into the `areas` table**:
+       - Use an `INSERT INTO` statement to insert the values of `r` (radius) and `a` (area) into the table.
+
+4. **End the loop**: Continue looping until `r` reaches 9.
+
+5. **Commit the transaction**:
+   - After the loop completes and all values are inserted, use the `COMMIT` command to save the changes to the database permanently.
+
+6. **End the PL/SQL block**: The PL/SQL anonymous block completes execution.
+
+### Example Data After Execution
+
+After running the PL/SQL block, the `areas` table will contain the following data:
+
+| radius | area    |
+|--------|---------|
+| 5.00   | 78.54   |
+| 6.00   | 113.10  |
+| 7.00   | 153.94  |
+| 8.00   | 201.06  |
+| 9.00   | 254.47  |
+
+Each row represents a circle with a specific radius (from 5 to 9), and its corresponding area is calculated and stored in the `areas` table.
