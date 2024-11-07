@@ -155,3 +155,11 @@ WHERE s.name = 'Gaurav Sharma';
 - **Schema Creation** ensures referential integrity through foreign keys.
 - **Data Insertion** populates `Course` and `Student` tables with records.
 - **Queries** demonstrate SQL operations like `SELECT`, `JOIN`, and `WHERE` clauses to retrieve specific records, producing the expected outputs for each requirement.
+
+NOTE: To drop an existing table that is referenced by a foreign key, use the following SQL syntax:
+
+```sql
+DROP TABLE tablename CASCADE CONSTRAINTS;
+```
+
+This command will remove the specified table along with any foreign key constraints that depend on it.
